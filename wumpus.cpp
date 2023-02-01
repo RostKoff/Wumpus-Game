@@ -38,8 +38,9 @@ void Wumpus::encounter(Player* player, const int* room) {
 
     // If Wumpus was asleep, he awakes
     if(isAsleep == 1) {
+        std::cout<<"\nThe beast has awoken";
         isAsleep = 0;
-    
+        
         randNum = (rand()%100)+1;
 
         // If the 'randNum' value is greater than the 'activeness' value, Wumpus will go to another room

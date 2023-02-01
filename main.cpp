@@ -18,6 +18,7 @@ void menu();
 void game();
 bool connectedRooms(int firstRoom, int secondRoom);
 int getFreeRoom(int* list, int size);
+void printInstructions();
 
 int main() {
     menu();
@@ -28,10 +29,10 @@ void menu() {
     while (1) {
         char option;
 
-        // Outputting menu options
+        // Outputting menu options.
         std::cout<<"\n[1] Start game\n[2] Instructions\n[q] Quit\nOption?: ";
 
-        // Selecting an option
+        // Selecting an option.
         std::cin>>option;
         if(option == 'q') break;
         switch (option) {
@@ -39,8 +40,7 @@ void menu() {
             game();
             break;
         case '2':
-            std::cout<<"Hello guys!\nPress any key to continue...\n";
-            _getwch();
+            printInstructions();
             break;
         default:
             std::cout<<"Wrong option!\n";
@@ -64,12 +64,12 @@ void game() {
     int listSize = 2+(sizeof(bats)/sizeof(bats[0]))+(sizeof(pits)/sizeof(pits[0]));
     int reservedList[listSize];
 
-    // Filling the array with '-1', which will mean that the room is free
+    // Filling the array with '-1', which will mean that the room is free.
     std::fill_n(reservedList, listSize, -1);
 
     srand(time(NULL));
 
-    // Placing each entity in a randomly selected room
+    // Placing each entity in a randomly selected room.
     player.setCurrentPos(getFreeRoom(reservedList, listSize));
     wumpus.setCurrentPos(getFreeRoom(reservedList, listSize));
     for(int i=0; i<(sizeof(bats)/sizeof(bats[0])); i++)
@@ -140,7 +140,7 @@ void game() {
         for(int i=0; i<3; i++) {
             std::cout<<cave[player.getCurrentPos()][i]<<" ";
         }
-        // End of information output
+        // End of information output.
 
         std::cout<<"\nShoot or move[s/m]?: ";
         std::cin>>option;
@@ -249,5 +249,11 @@ int getFreeRoom(int* list, int size) {
                 break;
         }
     }
+}
+
+// The function outputs game instructions for the player.
+void printInstructions() {
+    std::cout<<"\nWelcome to \'Hunt The Wumpus\'\nThe Wumpus lives in a cave of 20 rooms.\nEach room has 3 tunnels leading to other rooms.\n\nHazards:\nBottomless pits - some rooms have bottomless pits in them.\nIf you go there, you fall into the pit (& lose!).\nSuper bats - two other rooms have super bats.\nIf you go there, a bat grabs you and takes you to some other\nroom at random.(which may be troublesome)\n\nWumpus:\nThe Wumpus is not bothered by hazards and usually he is asleep.\nTwo things wake him up:\nYou shooting an arrow near him or you entering his room.\nIf the Wumpus wakes, he may move one room or stays still.\nAfter that, if he is where you are, he eats you up and you lose!\n\nYou:\nEach turn you may move or shoot an arrow\nMoving: you can move through one tunnel.\nShooting: you can shoot through one tunnel.\nYou lose when you run out of arrows.\nIf the arrow hits the wumpus, you win.\n\nPress any key to continue...\n";
+    _getwch();
 }
 
